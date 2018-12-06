@@ -1,27 +1,27 @@
-var mysql = require('mysql'); 
+var mysql = require('mysql');
 
 //setting up connection and end functions
 //this database connection is 'root'...
 //has access to all databases on RDS
 function getConnection() {
     return mysql.createPool({
-        host: 'ecomsite-rds.clpcnl2zsquk.us-east-1.rds.amazonaws.com',
-        user: 'ecomsiteabdullah',
-        password: 'setsuna00',
+      host: process.env.RDS_HOSTNAME,
+      username: process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD
     });
 }
 
 function connectionEnd() {
-    connection.end(); 
+    connection.end();
 }
 
 //setting up connection variable
-var connection = getConnection(); 
+var connection = getConnection();
 
 //statement to create table
 var stmt = `create table if not exists ecomsite.products(
     id int primary key auto_increment,
-    title varchar(255) not null, 
+    title varchar(255) not null,
     description text not null,
     imagePath longtext not null,
     price int not null)`;
@@ -29,11 +29,10 @@ var stmt = `create table if not exists ecomsite.products(
 //query statement to check if 'products' table is created
 connection.query(stmt, (err, results, fields) => {
     if (err) {
-        console.log('connection failed...'); 
-        console.log(err.message); 
+        console.log('connection failed...');
+        console.log(err.message);
     } else {
-        console.log('table created successfully, or is already created'); 
-        connectionEnd(); 
+        console.log('table created successfully, or is already created');
+        connectionEnd();
     }
 })
-

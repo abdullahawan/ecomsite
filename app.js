@@ -9,9 +9,9 @@ var mysql = require('mysql');
 
 function getConnection() {
   return mysql.createConnection({
-    host: 'ecomsite-rds.clpcnl2zsquk.us-east-1.rds.amazonaws.com',
-    username: 'ecomsiteabdullah',
-    password: 'setsuna00',
+    host: process.env.RDS_HOSTNAME,
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD
   });
 }
 
@@ -28,7 +28,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(bodyParser({extended: false})); 
+app.use(bodyParser({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

@@ -7,10 +7,9 @@ var mysql = require('mysql');
 //has access to all databases on RDS
 function getConnection() {
     return mysql.createConnection({
-
-        host: 'ecomsite-rds.clpcnl2zsquk.us-east-1.rds.amazonaws.com',
-        user: 'ecomsiteabdullah',
-        password: 'setsuna00',
+      host: process.env.RDS_HOSTNAME,
+      username: process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD
     });
 }
 
